@@ -1,3 +1,12 @@
+## DOCKER !READ ME!
+
+Replace all instances of YOUR-APP-NAME with the name of your app.
+
+<font color="red">**WARNING:**</font>
+Do not use spaces in the name of your app. Only use lowercase letters, numbers, and dashes.
+
+(add a line here using md)
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started

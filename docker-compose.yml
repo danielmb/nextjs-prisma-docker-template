@@ -1,0 +1,58 @@
+services:
+  # mssql:
+  #   image: 'mcr.microsoft.com/mssql/server:2022-latest'
+  #   environment:
+  #     - ACCEPT_EULA=Y
+  #     - SA_PASSWORD=Password123
+  #   ports:
+  #     - "1433:1433"
+
+  #   networks:
+  #     YOUR-APP-NAME-network:
+  #       aliases:
+  #         - mssql
+  postgres:
+    image: postgres
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=Password123
+      - POSTGRES_DB=YOUR-APP-NAME
+    ports:
+      - '5432:5432'
+    networks:
+      YOUR-APP-NAME-network:
+        aliases:
+          - postgres
+
+  YOUR-APP-NAME:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development
+    ports:
+      - '3000:3000'
+      - '49153:49153'
+    depends_on:
+      # - mssql
+      - postgres
+    links:
+      # - mssql
+      - postgres
+    environment:
+      # - DATABASE_URL=sqlserver://mssql:1433;database=YOUR-APP-NAME;user=sa;password=Password123;trustServerCertificate=true
+      - DATABASE_URL=postgres://postgres:Password123@postgres:5432/YOUR-APP-NAME
+    volumes:
+      - .:/YOUR-APP-NAME
+      - node_modules:/YOUR-APP-NAME/node_modules
+      - .next:/YOUR-APP-NAME/.next
+    networks:
+      YOUR-APP-NAME-network:
+        aliases:
+          - YOUR-AP
+volumes:
+  node_modules: {}
+  .next: {}
+
+networks:
+  YOUR-APP-NAME-network:
+    driver: bridge
